@@ -1,0 +1,50 @@
+grep -R "network:host" srcs
+grep -R -- "--link" srcs
+grep -R -- "--link" srcs
+grep -R -- "--link" srcs
+grep -R "ENTRYPOINT*"
+
+openssl s_client -connect jakrajic.42.fr:443
+
+docker networks ls
+docker inspect network inspection-inspection
+
+NGINX - http/ https access
+curl -k -I http://jakrajic.42.fr
+curl -k -I https://jakrajic.42.fr
+
+docker volume ls
+docker volume inspect wordpress_data
+https://jakrajic.42.fr/wp-admin
+
+docker compose  -f srcs/docker-compose.yml exec mariadb mariadb -u root -p
+docker exec -it inception-mariadb-1 bash
+root@3ab23f84908b:/# mariadb -u root -p
+Enter password: 
+SHOW DATABASES;
+USE wordpress;
+SHOW TABLES;
+SELECT * FROM wp_comments;
+
+
+BONUS
+*ADMINER*
+https://jakrajic.42.fr/adminer
+mariadb, wpuser, aaaa, wordpress;
+
+*FTP*
+ftp localhost
+name (localhost:jana): ftpuser
+331 Please specify the password.
+Password: aaaa
+filezilla
+localhost, ftpuser, aaaa, 21
+
+*REDIS*
+docker exec -it inception-redis-1 redis-cli ping
+docker exec -it inception-redis-1 redis-cli SET test "hello"
+docker exec -it inception-redis-1 redis-cli GET test
+docker exec inception-redis-1 redis-cli INFO keyspace
+
+
+https://www.debian.org/releases/index.en.html
