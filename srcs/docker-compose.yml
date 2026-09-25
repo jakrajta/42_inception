@@ -118,6 +118,7 @@ services:
       - ftp_user_password
 
   monitor:
+    image: monitor
     build:
       context: ./requirements/bonus/monitor
     env_file:
