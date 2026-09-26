@@ -74,66 +74,126 @@ Make sure the required data directories can be created under:
 
 Build the images and start the infrastructure:
 
-```
+```bash
 make
 ```
 
 The Makefile creates the required data directories, builds the Docker images and starts the containers.
 
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml up -d --build
+```
+
 To build the images without starting the containers:
 
-```
+```bash
 make build
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml build
 ```
 
 To start existing containers:
 
-```
+```bash
 make start
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml start
 ```
 
 Alternatively, start the infrastructure with Docker Compose through the Makefile:
 
-```
+```bash
 make up
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml up -d
 ```
 
 ## Container Management
 
 Check the running containers:
 
-```
+```bash
 make status
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml ps
 ```
 
 Stop containers:
 
-```
+```bash
 make stop
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml stop
 ```
 
 Stop and remove containers:
 
-```
+```bash
 make down
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml down
 ```
 
 Restart containers:
 
-```
+```bash
 make restart
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml restart
 ```
 
 View logs:
 
-```
+```bash
 make logs
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml logs -f
 ```
 
 View only monitor logs:
 
-```
+```bash
 make monitor
+```
+
+Equivalent Docker Compose command:
+
+```bash
+docker compose -f srcs/docker-compose.yml logs -f monitor
 ```
 
 ## Volumes and Persistent Data
@@ -187,6 +247,25 @@ This command also removes:
 ```
 
 **Warning:** `make fclean` permanently removes the persistent project data.
+
+## Accessing Containers
+
+To open an interactive shell inside a running container:
+
+```bash
+docker exec -it <container_name> bash
+```
+For example:
+
+```bash
+docker exec -it inception-nginx-1 bash
+```
+
+The container name can be checked with:
+
+```bash
+docker ps
+```
 
 ## Docker Compose
 
