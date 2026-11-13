@@ -254,6 +254,20 @@ This command also removes:
 
 **Warning:** `make fclean` permanently removes the persistent project data.
 
+The secrets in `secrets/*.txt` and `srcs/.env` are **not** removed by `make fclean`.
+
+## Full Reset
+
+To start completely from scratch, including credentials:
+
+```
+make reset
+```
+
+This runs `make fclean` and additionally deletes `secrets/*.txt` and `srcs/.env`. The next `make` (or `make setup`) recreates `srcs/.env` from `srcs/.env.example` and asks for new passwords.
+
+**Warning:** any changes made to `srcs/.env` are lost.
+
 ## Accessing Containers
 
 To open an interactive shell inside a running container:

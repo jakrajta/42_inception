@@ -239,6 +239,16 @@ make fclean
 
 This also removes the persistent WordPress and MariaDB data.
 
+Passwords in `secrets/` and `srcs/.env` are kept.
+
+### Reset everything (including credentials)
+
+```bash
+make reset
+```
+
+Runs `make fclean` and also deletes `secrets/*.txt` and `srcs/.env`. The next `make` asks for new passwords.
+
 ### Check status
 
 ```bash

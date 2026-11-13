@@ -45,6 +45,9 @@ fclean:
 	rm -rf /home/jana/data/wordpress
 	rm -rf /home/jana/data/mariadb
 
+reset: fclean
+	rm -f secrets/*.txt srcs/.env
+
 start:
 	$(COMPOSE) start
 
@@ -63,4 +66,4 @@ logs:
 monitor:
 	$(COMPOSE) logs -f monitor
 
-.PHONY: all setup create-data build up down down-volumes fclean start stop restart status logs monitor
+.PHONY: all setup create-data build up down down-volumes fclean reset start stop restart status logs monitor
