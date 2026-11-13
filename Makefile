@@ -47,6 +47,7 @@ fclean:
 
 reset: fclean
 	rm -f secrets/*.txt srcs/.env
+	rm -rf secrets
 
 start:
 	$(COMPOSE) start
