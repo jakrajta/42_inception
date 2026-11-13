@@ -1,8 +1,27 @@
 COMPOSE = docker compose -f srcs/docker-compose.yml
+SECRETS = db_root_password db_user_password wp_admin_password wp_user_password ftp_user_password
 
-all: create-data
+all: setup create-data
 	$(COMPOSE) up -d --build
 
+
+setup:
+	@if [ ! -f srcs/.env ]; then \
+		cp srcs/.env.example srcs/.env; \
+		echo "Created srcs/.env from srcs/.env.example"; \
+	fi
+	@mkdir -p secrets
+	@for s in $(SECRETS); do \
+		if [ ! -f secrets/$$s.txt ]; then \
+			while true; do \
+				printf "Enter $$s: "; stty -echo; read -r pw; stty echo; echo; \
+				[ -n "$$pw" ] && break; \
+				echo "Password must not be empty."; \
+			done; \
+			printf '%s' "$$pw" > secrets/$$s.txt; \
+			echo "Saved secrets/$$s.txt"; \
+		fi; \
+	done
 
 create-data:
 	mkdir -p /home/jana/data/wordpress
@@ -43,3 +62,5 @@ logs:
 
 monitor:
 	$(COMPOSE) logs -f monitor
+
+.PHONY: all setup create-data build up down down-volumes fclean start stop restart status logs monitor

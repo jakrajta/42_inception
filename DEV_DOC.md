@@ -60,9 +60,15 @@ git clone <repository>
 cd <repository name>
 ```
 
-Create the required Docker secret files according to the configuration in `docker-compose.yml`.
+Create the environment file and the Docker secrets:
 
-The secrets contain sensitive information such as database and service passwords.
+```bash
+make setup
+```
+
+This copies `srcs/.env.example` to `srcs/.env` and asks for each password, which it saves to `secrets/*.txt` (existing files are kept). For manual setup and a description of every variable and secret, see the **Setup** section in `README.md`.
+
+The secrets contain sensitive information such as database and service passwords. Both `srcs/.env` and `secrets/*.txt` are ignored by Git.
 
 Make sure the required data directories can be created under:
 

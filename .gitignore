@@ -427,3 +427,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Inception - local configuration and credentials (see README "Setup")
+srcs/.env
+secrets/*.txt

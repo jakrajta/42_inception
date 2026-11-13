@@ -67,7 +67,9 @@ NGINX is the only public entry point for the mandatory infrastructure.
 ├── README.md
 ├── USER_DOC.md
 ├── DEV_DOC.md
+├── secrets/                 # *.txt password files (not in Git)
 └── srcs/
+    ├── .env.example         # template for srcs/.env (not in Git)
     ├── docker-compose.yml
     └── requirements/
         ├── mariadb/
@@ -113,6 +115,79 @@ The project uses named volumes for WordPress and MariaDB, with their data stored
 
 ```text
 /home/jakrajic/data/
+```
+
+---
+
+## Setup
+
+The repository does **not** contain any credentials. Before the first run you need:
+
+1. `srcs/.env` – non-sensitive configuration (domain, database name, usernames)
+2. `secrets/*.txt` – one password per file, mounted into containers as Docker secrets
+
+### Quick setup
+
+```bash
+make setup
+```
+
+This creates `srcs/.env` from `srcs/.env.example` and asks you to type a password for every missing secret file (input is hidden). Existing files are never overwritten. `make` runs this step automatically.
+
+To look up a password later (e.g. for the WordPress admin login):
+
+```bash
+cat secrets/wp_admin_password.txt
+```
+
+### Manual setup
+
+**1. Environment file**
+
+```bash
+cp srcs/.env.example srcs/.env
+```
+
+| Variable         | Description                                      | Example               |
+|------------------|--------------------------------------------------|-----------------------|
+| `DB_NAME`        | WordPress database name                          | `wordpress`           |
+| `DB_USER`        | MariaDB user for WordPress                       | `wpuser`              |
+| `DB_HOST`        | MariaDB host (Compose service name)              | `mariadb`             |
+| `DOMAIN_NAME`    | Domain served by NGINX                           | `jakrajic.42.fr`      |
+| `WP_ADMIN_USER`  | WordPress administrator (must not contain *admin*) | `wpowner`           |
+| `WP_ADMIN_EMAIL` | Administrator e-mail                             | `wpowner@example.com` |
+| `WP_USER`        | Regular WordPress user (author)                  | `student`             |
+| `WP_USER_EMAIL`  | Regular user e-mail                              | `student@example.com` |
+
+**2. Secrets**
+
+```bash
+mkdir -p secrets
+printf '%s' 'your-db-root-password'  > secrets/db_root_password.txt
+printf '%s' 'your-db-user-password'  > secrets/db_user_password.txt
+printf '%s' 'your-wp-admin-password' > secrets/wp_admin_password.txt
+printf '%s' 'your-wp-user-password'  > secrets/wp_user_password.txt
+printf '%s' 'your-ftp-password'      > secrets/ftp_user_password.txt
+```
+
+| File                    | Used by             | Purpose                         |
+|-------------------------|---------------------|---------------------------------|
+| `db_root_password.txt`  | MariaDB             | MariaDB `root` password         |
+| `db_user_password.txt`  | MariaDB, WordPress  | Password of `DB_USER`           |
+| `wp_admin_password.txt` | WordPress           | Password of `WP_ADMIN_USER`     |
+| `wp_user_password.txt`  | WordPress           | Password of `WP_USER`           |
+| `ftp_user_password.txt` | FTP                 | Password of the `ftpuser` account |
+
+Both `srcs/.env` and `secrets/*.txt` are listed in `.gitignore`.
+
+> Passwords are applied only when the database and WordPress are initialised for the first time. After changing them, run `make fclean` and `make` again.
+
+### Domain
+
+Point the domain to your machine, for example:
+
+```bash
+echo "127.0.0.1 jakrajic.42.fr static.jakrajic.42.fr" | sudo tee -a /etc/hosts
 ```
 
 ---
