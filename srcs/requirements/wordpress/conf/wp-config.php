@@ -11,7 +11,6 @@ define( 'DB_CHARSET', 'utf8mb4' );
 define( 'DB_COLLATE', '' );
 
 define( 'AUTH_KEY', '${AUTH_KEY}' );
-t
 define( 'SECURE_AUTH_KEY', '${SECURE_AUTH_KEY}' );
 
 define( 'LOGGED_IN_KEY', '${LOGGED_IN_KEY}' );
